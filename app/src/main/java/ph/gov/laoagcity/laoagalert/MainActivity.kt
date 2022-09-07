@@ -1,7 +1,13 @@
 package ph.gov.laoagcity.laoagalert
 
+
+import android.app.AlertDialog
+import android.Manifest
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
+import android.telephony.SmsManager
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -21,11 +27,49 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import ph.gov.laoagcity.laoagalert.ui.theme.LaoagAlertTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Ask for permissions if not yet allowed
+        val tag = "PERMISSION"
+        val smsSendPermission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+        val coarseLocationPermission =
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        //val phoneAccount = ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS)
+        if (smsSendPermission != PackageManager.PERMISSION_GRANTED) {
+            Log.i(tag, "Permission to send SMS denied")
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.SEND_SMS
+                ) || (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_COARSE_LOCATION))
+            ) {
+                val builder = AlertDialog.Builder(this)
+                builder.setMessage("Permission to read location and send SMS is required for dispatch to contact you.")
+                    .setTitle("Permission required")
+
+                builder.setPositiveButton(
+                    "OK"
+                ) { dialog, id ->
+                    Log.i(tag, "Clicked")
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.SEND_SMS),
+                        101
+                    )
+                }
+
+                val dialog = builder.create()
+                dialog.show()
+            } else {
+                //makeRequest()
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 101)
+            }
+        }
         setContent {
             LaoagAlertTheme {
                 // A surface container using the 'background' color from the theme
@@ -51,6 +95,7 @@ class MainActivity : ComponentActivity() {
 *
 * 6.instead of #2 an Disclaimer and Privacy Composable that will request needed permissions
 * for 1 time only
+* 7. add a timer activity / fragment for elapsed time since sending SMS
 */
 
 fun assembleSMS() {
@@ -58,10 +103,6 @@ fun assembleSMS() {
     * emergency codes to be discussed
     * Implement graceful handling of non-granting of name, location and SMS permissions
     * pseudocode
-    * if (name permission granted)
-    *     name = google account
-    * else
-    *     name = "Anonymous sender"
     * if (location permission granted)
     *     location = current location
     * else
@@ -71,8 +112,13 @@ fun assembleSMS() {
     *     SendSMS()
     * else
     *     ask for permission until granted
+    * Anonymous sender for now
     */
-    TODO()
+//    val alertSms = SmsManager.getDefault()
+//    val alertSmsManager = getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as TextServicesManager
+    val latitude = 0.0
+    val longitude = 0.0
+    val senderName = "Anonymous"
 }
 
 @Composable
