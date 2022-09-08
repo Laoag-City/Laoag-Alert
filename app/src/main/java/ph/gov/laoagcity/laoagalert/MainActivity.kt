@@ -40,7 +40,6 @@ class MainActivity : ComponentActivity() {
             ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
         val locationCoarsePermission =
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-        //val phoneAccount = ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS)
         if ((smsSendPermission != PackageManager.PERMISSION_GRANTED) || (locationCoarsePermission != PackageManager.PERMISSION_GRANTED)) {
             Log.i(tag, "Permission to read location or send SMS denied")
             if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -137,10 +136,10 @@ fun PrivacyAndDisclaimer() {
 fun RadioButtonWithIcon() {
     val radioOptionsStringIconRes = listOf(
         Pair(R.drawable.ic_baseline_local_police_24, stringResource(id = R.string.police)),
-        Pair(R.drawable.ic_baseline_local_police_24, stringResource(id = R.string.medical)),
-        Pair(R.drawable.ic_baseline_local_police_24, stringResource(id = R.string.rescue)),
-        Pair(R.drawable.ic_baseline_local_police_24, stringResource(id = R.string.fire)),
-        Pair(R.drawable.ic_baseline_local_police_24, stringResource(id = R.string.other))
+        Pair(R.drawable.ic_emergency_black_24dp, stringResource(id = R.string.medical)),
+        Pair(R.drawable.ic_person_pin_circle_black_24dp, stringResource(id = R.string.rescue)),
+        Pair(R.drawable.ic_fire_truck_black_24dp, stringResource(id = R.string.fire)),
+        Pair(R.drawable.ic_report_black_24dp, stringResource(id = R.string.other))
     )
     val selectedValue = remember { mutableStateOf("") }
 //    Text(text = "Selected value: ${selectedValue.value.ifEmpty { "NONE" }}")
