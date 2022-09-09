@@ -18,6 +18,11 @@
         android:theme="@style/Theme.LaoagAlert"
         tools:targetApi="31">
         <activity
+            android:name=".HotlinesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_hotlines"
+            android:theme="@style/Theme.LaoagAlert" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.LaoagAlert">
