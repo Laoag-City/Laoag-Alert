@@ -3,6 +3,7 @@ package ph.gov.laoagcity.laoagalert
 
 import android.app.AlertDialog
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -66,7 +68,8 @@ class MainActivity : ComponentActivity() {
                     ActivityCompat.requestPermissions(
                         this,
                         arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                    101)
+                        101
+                    )
                 }
 
                 val dialog = builder.create()
@@ -104,8 +107,9 @@ class MainActivity : ComponentActivity() {
 * 7. add a timer activity / fragment for elapsed time since sending SMS
 */
 
-fun assembleSMS() {
-    /*Assemble an SMS in CSV format containing contact information, location, emergency code
+/*
+fun assembleSMS(mainButtonClick: Boolean) {
+    Assemble an SMS in CSV format containing contact information, location, emergency code
     * read permissions here again
     * Implement graceful handling of non-granting of name, location and SMS permissions
     * pseudocode
@@ -119,13 +123,16 @@ fun assembleSMS() {
     * else
     *     ask for permission until granted
     * Anonymous sender for now
-    */
-//    val alertSms = SmsManager.getDefault()
-//    val alertSmsManager = getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as TextServicesManager
+    val alertSms = SmsManager.getDefault()
+    val alertSmsManager = getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as TextServicesManager
     val latitude = 0.0
     val longitude = 0.0
     val senderName = "Anonymous"
+    val mContext = LocalContext.current
+    mContext.startActivity(Intent(mContext, HotlinesActivity::class.java))
+    mainButtonClick = !mainButtonClick
 }
+*/
 
 @Composable
 fun PrivacyAndDisclaimer() {
@@ -205,6 +212,10 @@ fun RadioButtonWithIcon() {
 @Composable
 fun MainAppActivity() {
     val mainButtonClick = remember { mutableStateOf(false) }
+    val latitude = 0.0
+    val longitude = 0.0
+    val senderName = "Anonymous"
+    val mContext = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -235,7 +246,11 @@ fun MainAppActivity() {
 
             Button(
 // see TODO # 5
-                onClick = { mainButtonClick.value = !mainButtonClick.value },
+// refactor code below into a class or fun()
+                onClick = {
+                    mainButtonClick.value = !mainButtonClick.value
+                    mContext.startActivity(Intent(mContext, HotlinesActivity::class.java))
+                    },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp, bottom = 4.dp, start = 4.dp, end = 4.dp)
