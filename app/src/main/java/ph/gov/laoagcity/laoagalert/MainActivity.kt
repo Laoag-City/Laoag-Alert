@@ -9,6 +9,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -86,7 +87,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-//                    Greeting("Android")
                     MainAppActivity()
                 }
             }
@@ -105,6 +105,7 @@ class MainActivity : ComponentActivity() {
 * 6.instead of #2 an Disclaimer and Privacy Composable that will request needed permissions
 * for 1 time only
 * 7. add a timer activity / fragment for elapsed time since sending SMS
+*
 */
 
 /*
@@ -139,6 +140,7 @@ fun PrivacyAndDisclaimer() {
     TODO()
 }
 
+/*
 @Composable
 fun RadioButtonWithIcon() {
     val radioOptionsStringIconRes = listOf(
@@ -208,13 +210,25 @@ fun RadioButtonWithIcon() {
         }
     }
 }
+*/
 
 @Composable
 fun MainAppActivity() {
     val mainButtonClick = remember { mutableStateOf(false) }
+    val radioOptionsStringIconRes = listOf(
+        Pair(R.drawable.ic_baseline_local_police_24, stringResource(id = R.string.police)),
+        Pair(R.drawable.ic_emergency_black_24dp, stringResource(id = R.string.medical)),
+        Pair(R.drawable.ic_person_pin_circle_black_24dp, stringResource(id = R.string.rescue)),
+        Pair(R.drawable.ic_fire_truck_black_24dp, stringResource(id = R.string.fire)),
+        Pair(R.drawable.ic_report_black_24dp, stringResource(id = R.string.other))
+    )
+    val selectedValue = remember { mutableStateOf("") }
     val latitude = 0.0
     val longitude = 0.0
     val senderName = "Anonymous"
+    //var alertCode = "0"
+    //var smsMessage: String
+    val smsManager: SmsManager = SmsManager.getDefault()
     val mContext = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -230,7 +244,6 @@ fun MainAppActivity() {
                     .height(128.dp)
                     .fillMaxWidth()
                     .padding(bottom = 12.dp)
-//                    .clip(MaterialTheme.shapes.small)
             )
 /*
             Text(
@@ -242,22 +255,102 @@ fun MainAppActivity() {
                     .padding(top = 16.dp, bottom = 16.dp)
             )
 */
-            RadioButtonWithIcon()
 
-            Button(
+// refactor the code below into a class or fun
+//            RadioButtonWithIcon()
+//    Text(text = "Selected value: ${selectedValue.value.ifEmpty { "NONE" }}")
+            val alertCode = selectedValue.value.ifEmpty { "NONE" }
+            radioOptionsStringIconRes.forEach { item ->
+                val selectedColor = if (selectedValue.value == item.second) {
+                    MaterialTheme.colors.secondary
+                } else {
+                    MaterialTheme.colors.primary
+                }
+                val selectedBackgroundColor = if (selectedValue.value == item.second) {
+                    MaterialTheme.colors.secondary.copy(alpha = .5f)
+                } else {
+                    Color.LightGray
+                }
+                Surface(
+                    shape = MaterialTheme.shapes.small,
+                    color = selectedBackgroundColor,
+                    border = BorderStroke(
+                        width = 2.dp,
+                        color = selectedColor
+                    ),
+                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 4.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .selectable(
+                                selected = (selectedValue.value == item.second),
+                                onClick = {
+                                    selectedValue.value = item.second
+                                },
+                                role = Role.RadioButton
+                            )
+                            .padding(8.dp)
+                    ) {
+                        IconToggleButton(
+                            checked = selectedValue.value == item.second,
+                            onCheckedChange = { selectedValue.value = item.second },
+                            modifier = Modifier.size(56.dp),
+                        ) {
+                            Icon(
+                                painter = painterResource(item.first),
+                                contentDescription = null,
+                                tint = selectedColor,
+                                modifier = Modifier
+                                    .width(56.dp)
+                                    .height(56.dp)
+                                    .clip(MaterialTheme.shapes.medium)
+
+                            )
+                        }
+                        Text(
+                            text = item.second,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp, end = 8.dp)
+                        )
+                    }
+                }
+            }
 // see TODO # 5
 // refactor code below into a class or fun()
+// if SEND_SMS and ACCESS_COARSE_LOCATION is not granted show hotlines otherwise send SMS
+            Button(
                 onClick = {
                     mainButtonClick.value = !mainButtonClick.value
-                    mContext.startActivity(Intent(mContext, HotlinesActivity::class.java))
-                    },
+                    if (mainButtonClick.value) {
+                        if (ContextCompat.checkSelfPermission(
+                                mContext,
+                                Manifest.permission.SEND_SMS
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            // send SMS code here. Use deprecated method for now
+                            val smsMessage = "$alertCode,$senderName,$latitude,$longitude"
+                            smsManager.sendTextMessage(
+                                "+639065212220",
+                                null,
+                                smsMessage,
+                                null,
+                                null
+                            )
+                            // on below line we are displaying a toast message for message send,
+                            Toast.makeText(mContext, "Message Sent", Toast.LENGTH_LONG).show()
+                        } else // show hotlines if SEND_SMS and ACCESS_COARSE_LOCATIONS is not granted
+                            mContext.startActivity(Intent(mContext, HotlinesActivity::class.java))
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp, bottom = 4.dp, start = 4.dp, end = 4.dp)
             )
             {
                 Text(
-                    text = "String Literal here",
+                    text = "Send ALERT!",
                     style = MaterialTheme.typography.h6
                 )
 //                Icon(Icons.Filled.List, contentDescription = null)
@@ -265,6 +358,7 @@ fun MainAppActivity() {
         }
     }
 }
+
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = false)

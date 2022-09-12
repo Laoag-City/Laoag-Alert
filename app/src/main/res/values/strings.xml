@@ -8,5 +8,5 @@
     <string name="app_title">App for Laoag Emergency Response Team</string>
     <string name="rescue">Search and Rescue</string>
     <string name="disclaimer">This app uses information that is stored in this device which is required for its intended function. Permission to read information such as name, location and the ability to send SMS (text message) will be requested. Thank you and mabuhay!</string>
-    <string name="title_activity_hotlines">HotlinesActivity</string>
+    <string name="title_activity_hotlines">Hotlines Activity</string>
 </resources>
