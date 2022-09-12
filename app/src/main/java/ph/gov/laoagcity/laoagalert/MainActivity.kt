@@ -259,6 +259,7 @@ fun MainAppActivity() {
 // refactor the code below into a class or fun
 //            RadioButtonWithIcon()
 //    Text(text = "Selected value: ${selectedValue.value.ifEmpty { "NONE" }}")
+            // TODO map alertCode using .Map()
             val alertCode = selectedValue.value.ifEmpty { "NONE" }
             radioOptionsStringIconRes.forEach { item ->
                 val selectedColor = if (selectedValue.value == item.second) {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Laoag ALERT</string>
+    <string name="police">Tulong Pampulisya</string>
+    <string name="medical">Tulong Medikal</string>
+    <string name="fire">Tulong Pamatay Sunog</string>
+    <string name="other">Iba pa</string>
+    <string name="app_title">App for Laoag Emergency Response Team</string>
+    <string name="rescue">Paghanap at Pangligtas</string>
+    <string name="title_activity_hotlines">Hotlines Activity</string>
+</resources>

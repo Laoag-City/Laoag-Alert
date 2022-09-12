@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Laoag ALERT</string>
+    <string name="app_title">App for Laoag Emergency Response Team</string>
+    <string name="title_activity_hotlines">Hotlines Activity</string>
+    <string name="other">Sabali pay</string>
+    <string name="rescue">Pinangsapul ken Panangisalakan</string>
+    <string name="fire">Pangsebseb Apuy</string>
+</resources>
