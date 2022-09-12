@@ -22,7 +22,7 @@ class HotlinesActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Hotlines()
+                    HotlinesContent()
                 }
             }
         }
@@ -30,7 +30,7 @@ class HotlinesActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainContent2() {
+fun HotlinesContent() {
     LaoagAlertTheme {
         Scaffold(
             topBar = { TopAppBar(title = { Text("Laoag City Hotline Numbers") }) },
@@ -60,8 +60,8 @@ fun Hotlines() {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true, showSystemUi = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = false)
 @Composable
-fun DefaultPreview2() {
-    MainContent2()
+fun HotlinesPreview() {
+    HotlinesContent()
 }
 
 
