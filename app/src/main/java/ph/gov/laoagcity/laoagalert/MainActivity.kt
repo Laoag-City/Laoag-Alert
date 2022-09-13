@@ -108,109 +108,10 @@ class MainActivity : ComponentActivity() {
 *
 */
 
-/*
-fun assembleSMS(mainButtonClick: Boolean) {
-    Assemble an SMS in CSV format containing contact information, location, emergency code
-    * read permissions here again
-    * Implement graceful handling of non-granting of name, location and SMS permissions
-    * pseudocode
-    * if (location permission granted)
-    *     location = current location
-    * else
-    *     latitude = "latitude not granted"
-    *     longitude = "longitude not granted"
-    * if (SMS permission granted)
-    *     SendSMS()
-    * else
-    *     ask for permission until granted
-    * Anonymous sender for now
-    val alertSms = SmsManager.getDefault()
-    val alertSmsManager = getSystemService(Context.TEXT_SERVICES_MANAGER_SERVICE) as TextServicesManager
-    val latitude = 0.0
-    val longitude = 0.0
-    val senderName = "Anonymous"
-    val mContext = LocalContext.current
-    mContext.startActivity(Intent(mContext, HotlinesActivity::class.java))
-    mainButtonClick = !mainButtonClick
-}
-*/
-
 @Composable
 fun PrivacyAndDisclaimer() {
     TODO()
 }
-
-/*
-@Composable
-fun RadioButtonWithIcon() {
-    val radioOptionsStringIconRes = listOf(
-        Pair(R.drawable.ic_baseline_local_police_24, stringResource(id = R.string.police)),
-        Pair(R.drawable.ic_emergency_black_24dp, stringResource(id = R.string.medical)),
-        Pair(R.drawable.ic_person_pin_circle_black_24dp, stringResource(id = R.string.rescue)),
-        Pair(R.drawable.ic_fire_truck_black_24dp, stringResource(id = R.string.fire)),
-        Pair(R.drawable.ic_report_black_24dp, stringResource(id = R.string.other))
-    )
-    val selectedValue = remember { mutableStateOf("") }
-//    Text(text = "Selected value: ${selectedValue.value.ifEmpty { "NONE" }}")
-    radioOptionsStringIconRes.forEach { item ->
-        val selectedColor = if (selectedValue.value == item.second) {
-            MaterialTheme.colors.secondary
-        } else {
-            MaterialTheme.colors.primary
-        }
-        val selectedBackgroundColor = if (selectedValue.value == item.second) {
-            MaterialTheme.colors.secondary.copy(alpha = .5f)
-        } else {
-            Color.LightGray
-        }
-        Surface(
-            shape = MaterialTheme.shapes.small,
-            color = selectedBackgroundColor,
-            border = BorderStroke(
-                width = 2.dp,
-                color = selectedColor
-            ),
-            modifier = Modifier.padding(vertical = 4.dp, horizontal = 4.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .selectable(
-                        selected = (selectedValue.value == item.second),
-                        onClick = {
-                            selectedValue.value = item.second
-                        },
-                        role = Role.RadioButton
-                    )
-                    .padding(8.dp)
-            ) {
-                IconToggleButton(
-                    checked = selectedValue.value == item.second,
-                    onCheckedChange = { selectedValue.value = item.second },
-                    modifier = Modifier.size(56.dp),
-                ) {
-                    Icon(
-                        painter = painterResource(item.first),
-                        contentDescription = null,
-                        tint = selectedColor,
-                        modifier = Modifier
-                            .width(56.dp)
-                            .height(56.dp)
-                            .clip(MaterialTheme.shapes.medium)
-
-                    )
-                }
-                Text(
-                    text = item.second,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 16.dp, end = 8.dp)
-                )
-            }
-        }
-    }
-}
-*/
 
 @Composable
 fun MainAppActivity() {
@@ -237,7 +138,7 @@ fun MainAppActivity() {
         Column(modifier = Modifier.padding(16.dp)) {
             Image(
                 painter = painterResource(
-                    id = R.drawable.app_header,
+                    id = R.drawable.alert_header,
                 ),
                 contentDescription = null,
                 modifier = Modifier
