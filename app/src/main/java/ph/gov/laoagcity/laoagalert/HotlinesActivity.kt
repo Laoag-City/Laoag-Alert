@@ -46,10 +46,10 @@ fun Hotlines() {
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
-        ) {
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth()
-    //        horizontalArrangement = Arrangement.Center
+            //        horizontalArrangement = Arrangement.Center
         ) {
             Text("Hello Geek!", fontSize = 50.sp)
             Text("Required permissions text here")
