@@ -33,7 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.tasks.CancellationTokenSource
+//import com.google.android.gms.tasks.CancellationTokenSource
 import ph.gov.laoagcity.laoagalert.ui.theme.LaoagAlertTheme
 
 class MainActivity : ComponentActivity() {
@@ -236,9 +236,10 @@ fun MainAppActivity() {
                                 Manifest.permission.SEND_SMS
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
+                            // get location and store in vals latitude and longitude
+//                            val priority = LocationRequest.QUALITY_BALANCED_POWER_ACCURACY
+//                            val cancellationTokenSource = CancellationTokenSource()
                             // send SMS code here. Use deprecated method for now
-                            val priority = LocationRequest.QUALITY_BALANCED_POWER_ACCURACY
-                            val cancellationTokenSource = CancellationTokenSource()
                             val smsMessage = "$alertCode,$senderName,$latitude,$longitude"
                             smsManager.sendTextMessage(
                                 "+639065212220",
