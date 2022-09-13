@@ -127,8 +127,6 @@ fun MainAppActivity() {
     val latitude = 0.0
     val longitude = 0.0
     val senderName = "Anonymous"
-    //var alertCode = "0"
-    //var smsMessage: String
     val smsManager: SmsManager = SmsManager.getDefault()
     val mContext = LocalContext.current
     Surface(
@@ -159,7 +157,6 @@ fun MainAppActivity() {
 
 // refactor the code below into a class or fun
 //            RadioButtonWithIcon()
-//    Text(text = "Selected value: ${selectedValue.value.ifEmpty { "NONE" }}")
             // TODO map alertCode using .Map()
             val alertCode = selectedValue.value.ifEmpty { "NONE" }
             radioOptionsStringIconRes.forEach { item ->
