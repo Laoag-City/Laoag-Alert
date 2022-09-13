@@ -1,11 +1,12 @@
 package ph.gov.laoagcity.laoagalert
 
 
-import android.app.AlertDialog
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.location.LocationRequest
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.util.Log
@@ -32,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.tasks.CancellationTokenSource
 import ph.gov.laoagcity.laoagalert.ui.theme.LaoagAlertTheme
 
 class MainActivity : ComponentActivity() {
@@ -77,7 +79,12 @@ class MainActivity : ComponentActivity() {
                 dialog.show()
             } else {
                 //makeRequest()
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 101)
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.SEND_SMS), 100)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                    100
+                )
             }
         }
         setContent {
@@ -104,7 +111,6 @@ class MainActivity : ComponentActivity() {
 *
 * 6.instead of #2 an Disclaimer and Privacy Composable that will request needed permissions
 * for 1 time only
-* 7. add a timer activity / fragment for elapsed time since sending SMS
 *
 */
 
@@ -216,9 +222,11 @@ fun MainAppActivity() {
                     }
                 }
             }
-// see TODO # 5
-// refactor code below into a class or fun()
-// if SEND_SMS and ACCESS_COARSE_LOCATION is not granted show hotlines otherwise send SMS
+/* see TODO # 5
+* refactor code below into a class or fun()
+* if SEND_SMS and ACCESS_COARSE_LOCATION is not granted show hotlines otherwise send SMS then
+* disable send button and show countdown timer
+*/
             Button(
                 onClick = {
                     mainButtonClick.value = !mainButtonClick.value
@@ -229,6 +237,8 @@ fun MainAppActivity() {
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
                             // send SMS code here. Use deprecated method for now
+                            val priority = LocationRequest.QUALITY_BALANCED_POWER_ACCURACY
+                            val cancellationTokenSource = CancellationTokenSource()
                             val smsMessage = "$alertCode,$senderName,$latitude,$longitude"
                             smsManager.sendTextMessage(
                                 "+639065212220",
@@ -237,6 +247,19 @@ fun MainAppActivity() {
                                 null,
                                 null
                             )
+                            //val fusedLocationProviderClient = FusedLocationProviderClient()
+/*
+                            fusedLocationClient.getCurrentLocation(priority, cancellationTokenSource.token)
+                                .addOnSuccessListener { location ->
+                                    Log.d("Location", "location is found: $location")
+                                }
+                                .addOnFailureListener { exception ->
+                                    Log.d(
+                                        "Location",
+                                        "Oops location failed with exception: $exception"
+                                    )
+                                }
+*/
                             // on below line we are displaying a toast message for message send,
                             Toast.makeText(mContext, "Message Sent", Toast.LENGTH_LONG).show()
                         } else // show hotlines if SEND_SMS and ACCESS_COARSE_LOCATIONS is not granted

@@ -52,6 +52,7 @@ fun Hotlines() {
     //        horizontalArrangement = Arrangement.Center
         ) {
             Text("Hello Geek!", fontSize = 50.sp)
+            Text("Required permissions text here")
         }
     }
 }
