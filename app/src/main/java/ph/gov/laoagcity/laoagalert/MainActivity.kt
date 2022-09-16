@@ -102,9 +102,9 @@ class MainActivity : ComponentActivity() {
 }
 
 
-/* TODO
+/* FEATURES to be worked on
 * 1. a dialog box to be displayed if outside of Laoag City
-* 2. runtime permission or upon install permission for location, send SMS (mostly done)
+* 2. runtime permission or upon install permission for location, send SMS (done)
 * 3. disclaimer and data privacy agreement activity
 * 4. add photo or video of incident / emergency
 * 5. check if SMS is sent within 5 mins., otherwise enable MainActivity() button
@@ -222,11 +222,6 @@ fun MainAppActivity() {
                     }
                 }
             }
-/* see TODO # 5
-* refactor code below into a class or fun()
-* if SEND_SMS and ACCESS_COARSE_LOCATION is not granted show hotlines otherwise send SMS then
-* disable send button and show countdown timer
-*/
             Button(
                 onClick = {
                     mainButtonClick.value = !mainButtonClick.value
@@ -236,9 +231,6 @@ fun MainAppActivity() {
                                 Manifest.permission.SEND_SMS
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            // get location and store in vals latitude and longitude
-//                            val priority = LocationRequest.QUALITY_BALANCED_POWER_ACCURACY
-//                            val cancellationTokenSource = CancellationTokenSource()
                             // send SMS code here. Use deprecated method for now
                             val smsMessage = "$alertCode,$senderName,$latitude,$longitude"
                             smsManager.sendTextMessage(
