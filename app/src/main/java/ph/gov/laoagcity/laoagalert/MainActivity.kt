@@ -240,19 +240,6 @@ fun MainAppActivity() {
                                 null,
                                 null
                             )
-                            //val fusedLocationProviderClient = FusedLocationProviderClient()
-/*
-                            fusedLocationClient.getCurrentLocation(priority, cancellationTokenSource.token)
-                                .addOnSuccessListener { location ->
-                                    Log.d("Location", "location is found: $location")
-                                }
-                                .addOnFailureListener { exception ->
-                                    Log.d(
-                                        "Location",
-                                        "Oops location failed with exception: $exception"
-                                    )
-                                }
-*/
                             // on below line we are displaying a toast message for message send,
                             Toast.makeText(mContext, "Message Sent", Toast.LENGTH_LONG).show()
                         } else // show hotlines if SEND_SMS and ACCESS_COARSE_LOCATIONS is not granted
