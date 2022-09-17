@@ -45,6 +45,7 @@ class MainActivity : ComponentActivity() {
             ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
         val locationCoarsePermission =
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        // FIXME
         if ((smsSendPermission != PackageManager.PERMISSION_GRANTED) || (locationCoarsePermission != PackageManager.PERMISSION_GRANTED)) {
             Log.i(tag, "Permission to read location or send SMS denied")
             if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -58,7 +59,6 @@ class MainActivity : ComponentActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setMessage("Permission to read current location and send SMS is required for dispatch to contact you.")
                     .setTitle("Permission required")
-
                 builder.setPositiveButton(
                     "OK"
                 ) { dialog, id ->
@@ -89,7 +89,6 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             LaoagAlertTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -229,7 +228,10 @@ fun MainAppActivity() {
                         if (ContextCompat.checkSelfPermission(
                                 mContext,
                                 Manifest.permission.SEND_SMS
-                            ) == PackageManager.PERMISSION_GRANTED
+                            ) == PackageManager.PERMISSION_GRANTED || (ContextCompat.checkSelfPermission(
+                                mContext,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            ) == PackageManager.PERMISSION_GRANTED)
                         ) {
                             // send SMS code here. Use deprecated method for now
                             val smsMessage = "$alertCode,$senderName,$latitude,$longitude"
@@ -240,9 +242,10 @@ fun MainAppActivity() {
                                 null,
                                 null
                             )
-                            // on below line we are displaying a toast message for message send,
-                            Toast.makeText(mContext, "Message Sent", Toast.LENGTH_LONG).show()
-                        } else // show hotlines if SEND_SMS and ACCESS_COARSE_LOCATIONS is not granted
+                            Toast.makeText(mContext, "ALERT Sent!", Toast.LENGTH_LONG).show()
+                            // countdown timer activity goes here
+                        } else
+                        // show hotlines if SEND_SMS and ACCESS_COARSE_LOCATIONS is not granted
                             mContext.startActivity(Intent(mContext, HotlinesActivity::class.java))
                     }
                 },
@@ -255,12 +258,10 @@ fun MainAppActivity() {
                     text = "Send ALERT!",
                     style = MaterialTheme.typography.h6
                 )
-//                Icon(Icons.Filled.List, contentDescription = null)
             }
         }
     }
 }
-
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = false)
