@@ -223,12 +223,13 @@ fun MainAppActivity() {
             }
             Button(
                 onClick = {
+                    // FIXME as well
                     mainButtonClick.value = !mainButtonClick.value
                     if (mainButtonClick.value) {
                         if (ContextCompat.checkSelfPermission(
                                 mContext,
                                 Manifest.permission.SEND_SMS
-                            ) == PackageManager.PERMISSION_GRANTED || (ContextCompat.checkSelfPermission(
+                            ) == PackageManager.PERMISSION_GRANTED && (ContextCompat.checkSelfPermission(
                                 mContext,
                                 Manifest.permission.ACCESS_COARSE_LOCATION
                             ) == PackageManager.PERMISSION_GRANTED)
