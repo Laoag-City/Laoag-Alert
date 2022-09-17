@@ -33,7 +33,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-//import com.google.android.gms.tasks.CancellationTokenSource
 import ph.gov.laoagcity.laoagalert.ui.theme.LaoagAlertTheme
 
 class MainActivity : ComponentActivity() {
@@ -101,12 +100,11 @@ class MainActivity : ComponentActivity() {
 }
 
 
-/* FEATURES to be worked on
-* 1. a dialog box to be displayed if outside of Laoag City
-* 2. runtime permission or upon install permission for location, send SMS (done)
-* 3. disclaimer and data privacy agreement activity
-* 4. add photo or video of incident / emergency
-* 5. check if SMS is sent within 5 mins., otherwise enable MainActivity() button
+/* FEATURES being worked on
+* * a dialog box to be displayed if outside of Laoag City
+* * disclaimer and data privacy agreement activity
+* * add photo or video of incident / emergency
+* * check if SMS is sent and disable MainActivity() button for 5 mins otherwise enable MainActivity() button
 *
 * 6.instead of #2 an Disclaimer and Privacy Composable that will request needed permissions
 * for 1 time only
@@ -131,7 +129,8 @@ fun MainAppActivity() {
     val selectedValue = remember { mutableStateOf("") }
     val latitude = 0.0
     val longitude = 0.0
-    val senderName = "Anonymous"
+    val senderName = "N-A"
+    // TODO : Use recommended method
     val smsManager: SmsManager = SmsManager.getDefault()
     val mContext = LocalContext.current
     Surface(
